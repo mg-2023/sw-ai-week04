@@ -89,42 +89,37 @@ int main()
 int moveMaxToFront(ListNode **ptrHead)
 {
     // if list is null
-	if (*ptrHead == NULL)
+	if (ptrHead == NULL || *ptrHead == NULL || (*ptrHead)->next == NULL)
 	{
 		return -1;
 	}
 
-	// initialize list in local
-	LinkedList ll;
-	ll.size = 0;
-	ll.head = *ptrHead;
-	ListNode *cur = ll.head;
-	while (cur != NULL)
-	{
-		cur = cur->next;
-		ll.size++;
-	}
+	ListNode *cur = *ptrHead;
+	ListNode *head = *ptrHead;
 
-	cur = *ptrHead;
-	int max = cur->item;
-	int curIndex = 0;
-	int maxIndex = 0;
-	while (cur != NULL)
-	{
-		if (max < cur->item)
-		{
-			max = cur->item;
-			maxIndex = curIndex;
+	ListNode *max = *ptrHead;
+	ListNode *maxPre = NULL;
+
+	// traverse to find max
+	while (cur->next != NULL) {
+		if (cur->next->item > max->item) {
+			maxPre = cur;
+			max = cur->next;
 		}
 
 		cur = cur->next;
-		curIndex++;
 	}
 
-	insertNode(&ll, 0, max);
-	*ptrHead = ll.head;
-	removeNode(&ll, maxIndex+1);
-	*ptrHead = ll.head;
+	// if max is first then do nothing
+	if (max == head) {
+		return 0;
+	}
+
+	// head pointing to max -> then head's next is original first
+	// then point maxPre's next to maxNext
+	maxPre->next = max->next;
+	*ptrHead = max;
+	max->next = head;
 	return 0;
 }
 
