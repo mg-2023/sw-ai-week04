@@ -89,6 +89,7 @@ int main()
 			createQueueFromLinkedList(&ll, &q); // You need to code this function
 			printf("The resulting queue is: ");
 			printList(&(q.ll));
+			printf("New queue size: %d\n", q.ll.size); // debug prompt
 			break;
 		case 3:
 			removeOddValues(&q); // You need to code this function
@@ -116,12 +117,34 @@ int main()
 
 void createQueueFromLinkedList(LinkedList *ll, Queue *q)
 {
-	/* add your code here */
+	if (ll == NULL || ll->head == NULL) {
+		return;
+	}
+
+	int idx = 0;
+	ListNode *cur = ll->head;
+
+	// remember to empty the queue at the beginning,
+	// if the queue is not empty
+	if (q->ll.head != NULL) {
+		removeAllItems(&(q->ll));
+	}
+
+	while (cur != NULL) {
+		insertNode(&(q->ll), idx++, cur->item);
+		cur = cur->next;
+	}
 }
 
 void removeOddValues(Queue *q)
 {
-	/* add your code here */
+	int sz = q->ll.size;
+	for (int i=0; i<sz; i++) {
+		int tmp = dequeue(q);
+		if (tmp%2 == 0) {
+			enqueue(q, tmp);
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////

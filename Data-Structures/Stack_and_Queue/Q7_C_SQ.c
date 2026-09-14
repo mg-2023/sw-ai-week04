@@ -104,7 +104,73 @@ int main()
 ////////////////////////////////////////////////////////////
 int balanced(char *expression)
 {
-/* add your code here */
+	Stack tempST;
+	LinkedList tempLL;
+	tempLL.size = 0;
+	tempLL.head = NULL;
+	tempST.ll = tempLL;
+
+	char *ch = expression;
+	while (*ch != '\0') {
+		// putchar(*ch);
+		switch (*ch) {
+			case '(':
+			push(&tempST, 1);
+			break;
+
+			case '{':
+			push(&tempST, 2);
+			break;
+
+			case '[':
+			push(&tempST, 3);
+			break;
+
+			case ')':
+			if (isEmptyStack(&tempST) || peek(&tempST) != 1) {
+				removeAllItemsFromStack(&tempST);
+				return 1;
+			}
+
+			else {
+				pop(&tempST);
+			}
+			break;
+
+			case '}':
+			if (isEmptyStack(&tempST) || peek(&tempST) != 2) {
+				removeAllItemsFromStack(&tempST);
+				return 1;
+			}
+
+			else {
+				pop(&tempST);
+			}
+			break;
+
+			case ']':
+			if (isEmptyStack(&tempST) || peek(&tempST) != 3) {
+				removeAllItemsFromStack(&tempST);
+				return 1;
+			}
+
+			else {
+				pop(&tempST);
+			}
+			break;
+
+			default:
+			printf("Unexpected char: %c\n", *ch);
+			removeAllItemsFromStack(&tempST);
+			return 1;
+		}
+
+		ch++;
+	}
+
+	int res = isEmptyStack(&tempST) ? 0 : 1;
+	removeAllItemsFromStack(&tempST);
+	return res;
 }
 
 ////////////////////////////////////////////////////////////
