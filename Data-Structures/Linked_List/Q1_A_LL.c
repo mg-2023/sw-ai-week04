@@ -113,7 +113,7 @@ int insertSortedLL(LinkedList *ll, int item)
 			return -1;
 		}
 
-		// if less or equal, move to next node
+		// if less the current, move to next node
 		cur = cur->next;
 		index++;
 	}
